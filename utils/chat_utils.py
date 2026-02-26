@@ -8,18 +8,18 @@ from discord.ext import commands
 
 
 async def get_chat_history(
-    ctx: commands.Context,
+    channel: discord.abc.Messageable,
     limit: int = 50,
     after: Optional[datetime.datetime] = None,
 ) -> str:
     """
-    Fetch recent messages from the current channel and return them as a
+    Fetch recent messages from the given channel and return them as a
     formatted plain-text log.
 
     Parameters
     ----------
-    ctx : commands.Context
-        The invocation context (used to access the channel).
+    channel : discord.abc.Messageable
+        The channel to fetch history from (e.g., interaction.channel).
     limit : int, optional
         Maximum number of messages to retrieve (default 50, capped at 500).
     after : datetime.datetime | None, optional
@@ -34,7 +34,7 @@ async def get_chat_history(
     limit = min(limit, 500)
 
     messages: list[discord.Message] = []
-    async for msg in ctx.channel.history(limit=limit, after=after, oldest_first=True):
+    async for msg in channel.history(limit=limit, after=after, oldest_first=True):
         if msg.author.bot or not msg.content:
             continue
         messages.append(msg)
