@@ -68,7 +68,7 @@ async def on_ready() -> None:
     log.info("Connected to %d guild(s)", len(bot.guilds))
     activity = discord.Activity(
         type=discord.ActivityType.listening,
-        name="/summarize | /help",
+        name="/summarize",
     )
     await bot.change_presence(activity=activity)
 

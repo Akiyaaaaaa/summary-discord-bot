@@ -6,6 +6,7 @@
   [![Discord](https://img.shields.io/badge/Discord.py-2.3.0+-5865F2.svg?logo=discord&logoColor=white)](https://discordpy.readthedocs.io/)
   [![Gemini](https://img.shields.io/badge/Google_Gemini-2.5_Flash-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
   [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker&logoColor=white)](https://www.docker.com/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 </div>
 
 ---
@@ -153,4 +154,4 @@ bot-dc-ai-summarize/
 
 ## 📜 License
 
-This project is open-source. Feel free to use, modify, and distribute as you see fit!
+This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute as you see fit!
