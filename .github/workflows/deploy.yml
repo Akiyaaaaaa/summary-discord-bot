@@ -1,0 +1,46 @@
+name: Deploy to GCP VM
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Copy project files via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.GCP_HOST }}
+          username: ${{ secrets.GCP_USERNAME }}
+          key: ${{ secrets.GCP_SSH_KEY }}
+          source: "."
+          target: "/home/${{ secrets.GCP_USERNAME }}/bot-dc-ai-summarize"
+
+      - name: SSH to GCP VM and Deploy Docker Container
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.GCP_HOST }}
+          username: ${{ secrets.GCP_USERNAME }}
+          key: ${{ secrets.GCP_SSH_KEY }}
+          script: |
+            cd /home/${{ secrets.GCP_USERNAME }}/bot-dc-ai-summarize
+
+            echo "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}" > .env
+            echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" >> .env
+
+            docker build -t discord-bot-summarize .
+
+            docker stop bot-container || true
+            docker rm bot-container || true
+
+            docker run -d --name bot-container \
+              --restart unless-stopped \
+              --env-file .env \
+              discord-bot-summarize
